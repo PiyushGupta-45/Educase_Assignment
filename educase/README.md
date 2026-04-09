@@ -1,4 +1,4 @@
-# PopX App Replica
+# PopX App 
 
 This project is a React + Vite replica of the PopX mobile onboarding UI from:
 
