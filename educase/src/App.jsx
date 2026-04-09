@@ -4,15 +4,7 @@ import "./App.css";
 
 function WelcomePage() {
   const navigate = useNavigate();
-  const [loadingTarget, setLoadingTarget] = useState("");
-
-  const handleNavigate = async (target) => {
-    if (loadingTarget) {
-      return;
-    }
-
-    setLoadingTarget(target);
-    await new Promise((resolve) => setTimeout(resolve, 500));
+  const handleNavigate = (target) => {
     navigate(target === "signup" ? "/signup" : "/login");
   };
 
@@ -30,30 +22,19 @@ function WelcomePage() {
 
         <button
           className="btn-primary"
-          disabled={Boolean(loadingTarget)}
           onClick={() => handleNavigate("signup")}
         >
           <span className="btn-content btn-content--overlay-right">
             <span className="btn-text">Create Account</span>
-            {loadingTarget === "signup" ? (
-              <span className="btn-spinner btn-spinner--right" aria-hidden="true" />
-            ) : null}
           </span>
         </button>
 
         <button
           className="btn-secondary"
-          disabled={Boolean(loadingTarget)}
           onClick={() => handleNavigate("login")}
         >
           <span className="btn-content btn-content--overlay-right">
             <span className="btn-text">Already Registered? Login</span>
-            {loadingTarget === "login" ? (
-              <span
-                className="btn-spinner btn-spinner--dark btn-spinner--right"
-                aria-hidden="true"
-              />
-            ) : null}
           </span>
         </button>
       </div>
@@ -63,21 +44,18 @@ function WelcomePage() {
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState("marry@gmail.com");
+  const [password, setPassword] = useState("Marry@123");
 
   const isValid = email.trim() !== "" && password.trim() !== "";
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!isValid || isSubmitting) {
+    if (!isValid) {
       return;
     }
 
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 700));
     navigate("/profile");
   };
 
@@ -121,13 +99,10 @@ function LoginPage() {
         <button
           type="submit"
           className="btn-primary"
-          disabled={!isValid || isSubmitting}
+          disabled={!isValid}
           style={{ marginTop: "8px" }}
         >
-          <span className="btn-content">
-            {isSubmitting ? <span className="btn-spinner" aria-hidden="true" /> : null}
-            {isSubmitting ? "Logging in..." : "Login"}
-          </span>
+          <span className="btn-content">Login</span>
         </button>
       </form>
     </div>
@@ -137,14 +112,13 @@ function LoginPage() {
 function CreatePage() {
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    password: "",
-    company: "",
+    fullName: "Marry Doe",
+    phone: "9876543210",
+    email: "marry@gmail.com",
+    password: "Marry@123",
+    company: "PopX Company",
     isAgency: "yes",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isValid = useMemo(
     () =>
@@ -160,15 +134,13 @@ function CreatePage() {
     setFormState((current) => ({ ...current, [field]: value }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!isValid || isSubmitting) {
+    if (!isValid) {
       return;
     }
 
-    setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 800));
     navigate("/profile");
   };
 
@@ -271,12 +243,9 @@ function CreatePage() {
           type="submit"
           className="btn-primary"
           style={{ marginTop: "16px" }}
-          disabled={!isValid || isSubmitting}
+          disabled={!isValid}
         >
-          <span className="btn-content">
-            {isSubmitting ? <span className="btn-spinner" aria-hidden="true" /> : null}
-            {isSubmitting ? "Creating..." : "Create Account"}
-          </span>
+          <span className="btn-content">Create Account</span>
         </button>
       </form>
     </div>
@@ -291,7 +260,7 @@ function ProfilePage() {
       <div className="profile-card">
         <div className="avatar-wrapper">
           <img
-            src="https://i.pravatar.cc/112?img=47"
+            src="/profile.png"
             alt="Marry Doe"
             className="avatar-img"
           />
